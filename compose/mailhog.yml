@@ -1,0 +1,23 @@
+version: '3.7'
+
+########################################################################################################################
+#
+#   Mailhog for testing emails
+#
+#   An /etc/hosts entry needs and should point the host specified in the following
+#   docker label to 127.0.0.1:
+#
+#     - traefik.http.routers.mailhog.rule
+#
+########################################################################################################################
+
+services:
+
+  mailhog:
+    image: mailhog/mailhog
+    networks:
+      - net
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.mailhog.rule=Host(`mailhog.${BASE_DOMAIN}`)"
+      - "traefik.http.services.mailhog.loadbalancer.server.port=8025"

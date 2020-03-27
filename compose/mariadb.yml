@@ -1,0 +1,49 @@
+version: '3.7'
+
+########################################################################################################################
+#
+#   MariaDB with Adminer admin interface
+#
+#   You must specify the following environment variables in .env:
+#
+#     - MYSQL_VERSION
+#     - MYSQL_ROOT_PASSWORD
+#     - MYSQL_DATABASE
+#
+#   An /etc/hosts entry needs added for the Adminer service and should point the host specified in the following
+#   docker label to 127.0.0.1:
+#
+#     - traefik.http.routers.adminer.rule
+#
+########################################################################################################################
+
+volumes:
+
+  mariadb:
+
+services:
+
+  mariadb:
+    image: mariadb:${MYSQL_VERSION}
+    volumes:
+      - mariadb:/var/lib/mysql
+    networks:
+      - net
+    environment:
+      MYSQL_ROOT_PASSWORD:
+      MYSQL_DATABASE:
+    restart: on-failure
+    command: ['--character-set-server=utf8mb4', '--collation-server=utf8mb4_unicode_ci']
+    healthcheck:
+      test: ["CMD", "mysqladmin" ,"ping", "-h", "localhost", "-u", "root", "-p${MYSQL_ROOT_PASSWORD}"]
+      interval: 10s
+      timeout: 5s
+
+  adminer:
+    image: adminer
+    restart: unless-stopped
+    networks:
+      - net
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.adminer.rule=Host(`adminer.${BASE_DOMAIN}`)"

@@ -1,0 +1,31 @@
+version: '3.7'
+
+########################################################################################################################
+#
+#   Gatsby
+#
+#   - change example.local in the label traefik.http.routers.client.rule if you wish
+#
+#   - add an entry to your hosts file /etc/hosts:
+#
+#       127.0.0.1 example.local
+#
+#   - modify the develop script in your package.json to include the arguments '--host 0.0.0.0'
+#
+########################################################################################################################
+
+services:
+
+  client:
+    build: ${NODE_VERSION}
+    command: sh -c "yarn install && yarn develop"
+    restart: unless-stopped
+    volumes:
+      - ./src:/usr/src/app
+    networks:
+      - net
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.client.rule=Host(`${BASE_DOMAIN}`)"
+      - "traefik.http.services.client.loadbalancer.server.port=9000"
+

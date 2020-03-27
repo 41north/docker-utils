@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+
+# -E flag preserves the environment of the original user, ensuring any variables or path modifications made by .envrc
+# are preserved
+
+/usr/bin/sudo -E "$@"

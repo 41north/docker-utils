@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+
+SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+
+VERSION=${NODE_VERSION:-13}
+
+USER_ID=${SUDO_UID:-$(id -u)}
+GROUP_ID=${SUDO_GID:-$(id -g)}
+
+docker run \
+  --network host \
+  --interactive \
+  --tty \
+  --rm \
+  --user "${USER_ID}":"${GROUP_ID}" \
+  --mount type=bind,source="$(pwd)",target=/usr/src/app \
+  --workdir /usr/src/app \
+  --env-file "${ENV_FILE}" \
+  node:"${VERSION}" "$@"

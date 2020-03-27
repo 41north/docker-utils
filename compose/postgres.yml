@@ -1,0 +1,53 @@
+version: '3.7'
+
+########################################################################################################################
+#
+#   Postgres with pgweb admin interface
+#
+#   You must specify the following environment variables in .env:
+#
+#     - POSTGRES_VERSION
+#     - POSTGRES_USER
+#     - POSTGRES_PASSWORD
+#     - POSTGRES_DB               // name of the db
+#
+#   An /etc/hosts entry needs added for the pgweb service and should point the host specified in the following
+#   docker label to 127.0.0.1:
+#
+#     - traefik.http.routers.pgweb.rule
+#
+########################################################################################################################
+
+volumes:
+
+  postgres:
+
+services:
+
+  postgres:
+    image: postgres:${POSTGRES_VERSION}
+    restart: unless-stopped
+    shm_size: 4g
+    ports:
+      - 5432:5432
+    volumes:
+      - postgres:/var/lib/postgresql/data
+    networks:
+      - net
+    environment:
+      POSTGRES_USER:
+      POSTGRES_PASSWORD:
+      POSTGRES_DB:
+
+  pgweb:
+    image: sosedoff/pgweb:0.11.6
+    restart: unless-stopped
+    networks:
+      - net
+    depends_on:
+      - postgres
+    command: "/usr/bin/pgweb --bind=0.0.0.0 --listen=8082 --url postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB}?sslmode=disable"
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.pgweb.rule=Host(`pgweb.${BASE_DOMAIN}`)"
+      - "traefik.http.services.pgweb.loadbalancer.server.port=8082"
