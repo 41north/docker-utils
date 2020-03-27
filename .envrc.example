@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+
+# useful path to have available
+export REPO_ROOT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+
+# source .env file to setup versions of various components
+dotenv ./.env
+
+# add our bin scripts to the path
+PATH_add ./docker-utils/bin/
