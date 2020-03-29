@@ -16,8 +16,9 @@ version: '3.7'
 services:
 
   api:
-    build: ${NODE_VERSION}
-    command: sh -c "yarn install && yarn start"
+    build: image:${NODE_VERSION}
+    user: "${USER_ID}:${GROUP_ID}"
+    command: sh -c "yarn install && yarn start:dev"
     restart: unless-stopped
     volumes:
       - ./:/usr/src/app

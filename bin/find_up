@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+
+x=$(pwd)
+
+while [ "$x" != "/" ]; do
+  find "$x" -maxdepth 1 -name "${1}"
+  x=$(dirname "$x")
+done

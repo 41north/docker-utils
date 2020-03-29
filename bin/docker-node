@@ -2,10 +2,19 @@
 
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
+"${SCRIPT_DIR}"/env
+
 VERSION=${NODE_VERSION:-13}
 
-USER_ID=${SUDO_UID:-$(id -u)}
-GROUP_ID=${SUDO_GID:-$(id -g)}
+PACKAGE_JSON=$(find_up package.json)
+
+if [ -z "${PACKAGE_JSON}" ]; then
+  echo "Could not find a package.json file in the current or parent directories"
+  exit 1
+fi
+
+MOUNT_DIR="$(dirname "$(realpath "${PACKAGE_JSON}")")"
+WORK_DIR="/usr/src/app/$(realpath --relative-to="${MOUNT_DIR}" `pwd`)"
 
 docker run \
   --network host \
@@ -13,7 +22,7 @@ docker run \
   --tty \
   --rm \
   --user "${USER_ID}":"${GROUP_ID}" \
-  --mount type=bind,source="$(pwd)",target=/usr/src/app \
-  --workdir /usr/src/app \
+  --mount type=bind,source="${MOUNT_DIR}",target=/usr/src/app \
+  --workdir "${WORK_DIR}" \
   --env-file "${ENV_FILE}" \
   node:"${VERSION}" "$@"
