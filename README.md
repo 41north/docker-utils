@@ -14,6 +14,9 @@ whatever project you are developing.
 Currently the helper scripts and example configs are geared towards [NodeJS](https://nodejs.org/en/) based development of APIs 
 and Frontends. In future we hope to add other platforms.
 
+An example project can be found [here](https://github.com/41north/docker-utils-example) which demonstrates how to use docker-utils
+when developing a full-stack node app.
+
 ## Prerequisites
 
 Before continuing you will need to ensure you have the following installed:
