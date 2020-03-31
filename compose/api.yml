@@ -16,7 +16,7 @@ version: '3.7'
 services:
 
   api:
-    build: image:${NODE_VERSION}
+    image: node:${NODE_VERSION}
     working_dir: /usr/src/app
     user: "${USER_ID}:${GROUP_ID}"
     command: sh -c "yarn install && yarn start:dev"
@@ -25,6 +25,9 @@ services:
       - ./api:/usr/src/app
     networks:
       - net
+    environment:
+      HOST: 0.0.0.0
+      PORT: 3000
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.api.rule=Host(`api.${BASE_DOMAIN}`)"
