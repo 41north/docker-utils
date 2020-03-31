@@ -17,11 +17,12 @@ services:
 
   api:
     build: image:${NODE_VERSION}
+    working_dir: /usr/src/app
     user: "${USER_ID}:${GROUP_ID}"
     command: sh -c "yarn install && yarn start:dev"
     restart: unless-stopped
     volumes:
-      - ./:/usr/src/app
+      - ./api:/usr/src/app
     networks:
       - net
     labels:

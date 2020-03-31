@@ -18,11 +18,12 @@ services:
 
   client:
     image: node:${NODE_VERSION}
+    working_dir: /usr/src/app
     user: "${USER_ID}:${GROUP_ID}"
     command: sh -c "yarn install && yarn serve"
     restart: unless-stopped
     volumes:
-      - ./src:/usr/src/app
+      - ./client:/usr/src/app
     networks:
       - net
     labels:
