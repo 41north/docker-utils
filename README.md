@@ -48,7 +48,26 @@ direnv: export +BASE_DOMAIN +ENV_FILE +NODE_VERSION +POSTGRES_DB +POSTGRES_PASSW
  
 ## Usage
 
+This repository is designed to help in two main areas:
 
+* configuring services via docker compose for frontend or API development
   
+* executing every day commands such as yarn or npm in a fashion consistent with the docker compose setup or in a 
+standalone fashion without requiring the installation of the aforementioned tools
 
+### Docker Compose
+
+Included within the `docker/compose` directory are a series of snippets which can be copied into the `docker-compose.yml` file of any 
+target repository. Currently there are examples for:
+
+* [Traefik](https://containo.us/traefik/)
+* [PostgreSQL](https://www.postgresql.org/)
+* [MariaDB](https://mariadb.org/)
+* [Mailhog](https://github.com/mailhog/MailHog)
+* [Gatsby](https://www.gatsbyjs.org/)
+* [Angular](https://angular.io/)
+* General Node-based API development
+  
+When copying the snippets be sure to observe the different sections such as `network`, `volumes` and `services` and be sure
+to merge each individually into your `docker-compose.yml` file.
 

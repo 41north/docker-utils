@@ -1,5 +1,15 @@
 version: '3.7'
 
+########################################################################################################################
+#
+#   Traefik Reverse Proxy
+#
+#   This snippet relies upon the example config within /traefik/traefik.yml. You must ensure when copying this to your
+#   docker-compose.yml file that the path specified in the volume mount below is correct.
+#
+#
+########################################################################################################################
+
 networks:
 
   net:
