@@ -1,7 +1,9 @@
 #!/usr/bin/env bash
 
-# useful path to have available
-export REPO_ROOT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+# useful paths that are required by the bin scripts
+
+export REPO_ROOT_DIR=$(realpath .)
+export ENV_FILE=$(realpath ./.env)
 
 # source .env file to setup versions of various components
 dotenv ./.env
