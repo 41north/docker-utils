@@ -4,7 +4,7 @@ SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
 "${SCRIPT_DIR}"/env
 
-VERSION=${NODE_VERSION:-13}
+VERSION=${NODE_VERSION:-14}
 
 PACKAGE_JSON=$(find_up package.json)
 
