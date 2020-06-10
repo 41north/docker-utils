@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/usr/bin/env sh
 
 export USER_ID=${SUDO_UID:-$(id -u)}
 export GROUP_ID=${SUDO_GID:-$(id -g)}
