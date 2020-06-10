@@ -16,8 +16,6 @@ fi
 MOUNT_DIR="$(dirname "$(realpath "${PACKAGE_JSON}")")"
 WORK_DIR="/usr/src/app/$(realpath --relative-to="${MOUNT_DIR}" `pwd`)"
 
-echo "User = ${USER_ID}:${GROUP_ID}"
-
 docker run \
   --network host \
   --interactive \
